@@ -1,0 +1,29 @@
+version: '3'
+services:
+  web:
+    image: odoo:14
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+      # - "8888:3001"
+    volumes:
+      - web-data:/var/lib/odoo
+      - ./config:/etc/odoo
+      - ./local-addons:/mnt/extra-addons
+    command: --dev=all --log-handler odoo.tools.convert:DEBUG
+    #command: bash -c "pip3 install debugpy && /usr/bin/python3 -m debugpy --listen 0.0.0.0:3001 /usr/bin/odoo --db_user=odoo --db_host=db --db_password=odoo --dev=all"
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+    ports:
+      - "5342:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  web-data:
+  db-data:
