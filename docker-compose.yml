@@ -6,6 +6,7 @@ services:
       - db
     ports:
       - "8069:8069"
+      - "8072:8072"
       # - "8888:3001"
     volumes:
       - web-data:/var/lib/odoo
